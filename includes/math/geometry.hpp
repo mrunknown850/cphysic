@@ -25,7 +25,6 @@ public:
 
     virtual GeometryType GetType() const = 0;
     virtual bool CollidesWith(const Geometry &other) const = 0;
-    virtual std::vector<Vec3> GetNormalAxis() const = 0;
 
     const Vec3 &GetLocalOffset() const { return offset; }
     const Quat4 &GetLocalRotation() const { return rotation; }
@@ -80,7 +79,7 @@ public:
     GeometryType GetType() const override { return GeometryType::BOX; }
     bool CollidesWith(const Geometry &other) const override;
 
-    std::vector<Vec3> GetNormalAxis() const override;
+    std::vector<Vec3> GetNormalAxis() const;
 
     const Vec3 &GetHalfExtends() const { return halfExtends; }
     void SetHalfExtends(double _x, double _y, double _z)
