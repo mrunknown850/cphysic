@@ -2,11 +2,10 @@
 #define GEOMETRY_HPP
 
 #include <vector>
-#include "object.hpp"
 #include "vectors.hpp"
 #include "quaternions.hpp"
 
-// class Object;
+class Object;
 
 enum class GeometryType
 {
@@ -29,8 +28,8 @@ public:
 
     const Vec3 &GetLocalOffset() const { return offset; }
     const Quat4 &GetLocalRotation() const { return rotation; }
-    Vec3 GetWorldCenter() const { return offset + object->GetPosition(); }
-    const Quat4 &GetWorldRotation() const { return (rotation * object->GetRotation()).Normalize(); }
+    Vec3 GetWorldCenter() const;
+    Quat4 GetWorldRotation() const;
 
     void SetLocalOffset(double _x, double _y, double _z)
     {
@@ -38,9 +37,9 @@ public:
         this->offset.y = _y;
         this->offset.z = _z;
     }
-    void SetLocalOffset(const Vec3 &new_offset)
+    void SetLocalOffset(const Vec3 &local_offset)
     {
-        this->offset = new_offset;
+        offset = local_offset;
     }
     void SetLocalRotation(double _w, double _x, double _y, double _z)
     {
