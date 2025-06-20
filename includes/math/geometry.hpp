@@ -34,7 +34,7 @@ public:
 
     void SetOwner(Object *obj) { object = obj; }
 
-    void SetLocalOffset(double _x, double _y, double _z)
+    void SetLocalOffset(const double &_x, const double &_y, const double &_z)
     {
         this->offset.x = _x;
         this->offset.y = _y;
@@ -44,7 +44,7 @@ public:
     {
         offset = local_offset;
     }
-    void SetLocalRotation(double _w, double _x, double _y, double _z)
+    void SetLocalRotation(const double &_w, const double &_x, const double &_y, const double &_z)
     {
         this->rotation.w = _w;
         this->rotation.x = _x;
@@ -52,7 +52,7 @@ public:
         this->rotation.z = _z;
         this->rotation.Normalize();
     }
-    void SetLocalRotation(double w, const Vec3 &axis)
+    void SetLocalRotation(const double &w, const Vec3 &axis)
     {
         this->rotation.w = w;
         this->rotation.x = axis.x;
@@ -83,7 +83,7 @@ public:
     std::vector<Vec3> GetNormalAxis() const override;
 
     const Vec3 &GetHalfExtends() const { return halfExtends; }
-    void SetHalfExtends(double _x, double _y, double _z)
+    void SetHalfExtends(const double &_x, const double &_y, const double &_z)
     {
         this->halfExtends.x = _x;
         this->halfExtends.y = _y;

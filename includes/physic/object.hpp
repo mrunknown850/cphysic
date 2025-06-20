@@ -34,31 +34,31 @@ public:
     const Quat4 &GetRotation() const { return rotation; }
     const std::vector<Force> &GetForces() const { return forces; }
 
-    void SetMass(double m)
+    void SetMass(const double &m)
     {
         this->mass = m > 0 ? m : this->mass;
     }
-    void SetVelocity(double _x, double _y, double _z)
+    void SetVelocity(const double &_x, const double &_y, const double &_z)
     {
         this->velocity.x = _x;
         this->velocity.y = _y;
         this->velocity.z = _z;
     }
-    void SetVelocity(Vec3 &vector)
+    void SetVelocity(const Vec3 &vector)
     {
         this->velocity = vector;
     }
-    void SetPosition(double _x, double _y, double _z)
+    void SetPosition(const double &_x, const double &_y, const double &_z)
     {
         this->position.x = _x;
         this->position.y = _y;
         this->position.z = _z;
     }
-    void SetPosition(Vec3 &vector)
+    void SetPosition(const Vec3 &vector)
     {
         this->position = vector;
     }
-    void SetRotation(double _w, double _x, double _y, double _z)
+    void SetRotation(const double &_w, const double &_x, const double &_y, const double &_z)
     {
         this->rotation.w = _w;
         this->rotation.x = _x;
@@ -66,7 +66,7 @@ public:
         this->rotation.z = _z;
         this->rotation.Normalize();
     }
-    void SetRotation(double w, const Vec3 &axis)
+    void SetRotation(const double &w, const Vec3 &axis)
     {
         this->rotation.w = w;
         this->rotation.x = axis.x;
