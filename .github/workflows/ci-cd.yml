@@ -1,0 +1,78 @@
+name: C++ CI/CD
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+  pull_request:
+    branches:
+      - master
+      - develop
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest # You can also use windows-latest or macos-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install Google Test (GTest)
+      run: |
+        sudo apt-get update
+        sudo apt-get install libgtest-dev -y
+        cd /usr/src/gtest
+        sudo cmake CMakeLists.txt
+        sudo make
+        sudo cp libgtest* /usr/lib/
+
+    - name: Create Build Directory
+      run: cmake -E make_directory ${{github.workspace}}/build
+
+    - name: Configure CMake
+      shell: bash
+      working-directory: ${{github.workspace}}/build
+      run: cmake ..
+
+    - name: Build Project
+      shell: bash
+      working-directory: ${{github.workspace}}/build
+      run: cmake --build . 
+
+    - name: Run Tests
+      shell: bash
+      working-directory: ${{github.workspace}}/build
+      run: ./run_test
+
+  # release:
+  #   needs: build-and-test
+  #   if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v4
+
+  #   - name: Create Release
+  #     id: create_release
+  #     uses: actions/create-release@v1
+  #     env:
+  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     with:
+  #       tag_name: v${{ github.run_number }} # Example: v1, v2, etc. Or use a more sophisticated versioning
+  #       release_name: Release v${{ github.run_number }}
+  #       body: |
+  #         Automated release based on successful CI/CD build.
+  #       draft: false
+  #       prerelease: false
+
+  #   - name: Upload Release Asset
+  #     uses: actions/upload-release-asset@v1
+  #     env:
+  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     with:
+  #       upload_url: ${{ steps.create_release.outputs.upload_url }}
+  #       asset_path: ${{ github.workspace }}/build/my_app # Replace with the actual path to your build artifact
+  #       asset_name: my_app_${{ github.run_number }} # Name for your release asset
+  #       asset_content_type: application/octet-stream
