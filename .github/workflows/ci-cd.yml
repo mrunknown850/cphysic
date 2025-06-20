@@ -9,6 +9,12 @@ on:
     branches:
       - master
       - develop
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: 'SHA of the commit to run tests against (optional, defaults to HEAD)'
+        required: false
+        default: ${{ github.sha }}
 
 jobs:
   build-and-test:
