@@ -17,7 +17,7 @@ public:
     }
 
     // Adding
-    int AddObject(Object obj); // Change signature to take by value
+    int AddObject(Object &&obj); // Change signature to take by value
     void Step(double dt = 1.0 / FPS);
 };
 
