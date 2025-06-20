@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <vector>
+#include "force.hpp"
 #include "vectors.hpp"
 #include "quaternions.hpp"
 
@@ -16,19 +17,22 @@ private:
     Vec3 position;
     Vec3 velocity;
 
+    std::vector<Force> forces;
     std::unique_ptr<Geometry> geometry;
+
+    void SetGeometryOwner();
 
 public:
     Object(double mass, std::unique_ptr<Geometry> geom)
-        : mass(mass), position(Vec3()), rotation(Quat4()), velocity(Vec3()), geometry(std::move(geom)) {}
+        : mass(mass), position(Vec3()), rotation(Quat4()), velocity(Vec3()), geometry(std::move(geom)) { SetGeometryOwner(); }
     Object(double mass, Vec3 position, Quat4 rotation, std::unique_ptr<Geometry> geom)
-        : mass(mass), position(position), rotation(rotation), geometry(std::move(geom)), velocity(Vec3()) {}
+        : mass(mass), position(position), rotation(rotation), geometry(std::move(geom)), velocity(Vec3()) { SetGeometryOwner(); }
 
     const double &GetMass() const { return mass; }
     const Vec3 &GetVelocity() const { return velocity; }
     const Vec3 &GetPosition() const { return position; }
     const Quat4 &GetRotation() const { return rotation; }
-};
+    const std::vector<Force> &GetForces() const { return forces; }
 
     void SetMass(double m)
     {
@@ -76,16 +80,23 @@ public:
         this->rotation.Normalize();
     }
 
-};
+    void AddForce(const Force &f)
+    {
+        forces.emplace_back(f);
+    }
+    void ClearForces()
+    {
+        forces.clear();
+    }
 
     // Move constructor
-    Object(Object&&) noexcept = default;
+    Object(Object &&) noexcept = default;
     // Move assignment
-    Object& operator=(Object&&) noexcept = default;
+    Object &operator=(Object &&) noexcept = default;
 
     // Delete copy constructor and copy assignment
-    Object(const Object&) = delete;
-    Object& operator=(const Object&) = delete;
+    Object(const Object &) = delete;
+    Object &operator=(const Object &) = delete;
 
     ~Object();
 };
