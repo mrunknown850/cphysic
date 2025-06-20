@@ -9,7 +9,8 @@ class Object;
 
 enum class GeometryType
 {
-    BOX
+    BOX,
+    SPHERE
 };
 
 class Geometry
@@ -92,6 +93,19 @@ public:
     {
         this->halfExtends = half_extends;
     }
+};
+
+class Sphere : public Geometry {
+private:
+    double radius;
+public:
+    Sphere(double radius, Object *obj) : radius(radius), Geometry(obj) {}
+
+    GeometryType GetType() const override { return GeometryType::SPHERE; }
+    bool CollidesWith(const Geometry &other) const override;
+
+    double GetRadius() const { return radius; }
+    void SetRadius(double _r) { this->radius = _r; }
 };
 
 #endif
