@@ -4,6 +4,7 @@
 #include <cmath>
 #include "config.hpp"
 
+// Vectors
 struct Vec3
 {
     double x, y, z;
