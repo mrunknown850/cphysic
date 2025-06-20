@@ -9,8 +9,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 include_directories(
     sources
     sources/math
+    sources/physic
     includes
     includes/math
+    includes/physic
 )
 
 file(GLOB_RECURSE SRCS
