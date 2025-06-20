@@ -69,7 +69,7 @@ bool Box::CollidesWith(const Geometry &other) const
 {
     if (other.GetType() == GeometryType::BOX)
     {
-        const Box* otherBox = dynamic_cast<const Box*>(&other);
+        const Box *otherBox = dynamic_cast<const Box *>(&other);
         if (otherBox)
             return BoxBoxCollision(*this, *otherBox);
         return false;
@@ -86,4 +86,11 @@ std::vector<Vec3> Box::GetNormalAxis() const
     a.emplace_back(Vec3(0, 1, 0) * this->GetWorldRotation());
     a.emplace_back(Vec3(0, 0, 1) * this->GetWorldRotation());
     return a;
+}
+
+Vec3 Geometry::GetWorldCenter() const { return offset + object->GetPosition(); }
+Quat4 Geometry::GetWorldRotation() const {
+    Quat4 result = rotation * object->GetRotation();
+    result.Normalize();
+    return result;
 }
