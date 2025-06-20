@@ -28,17 +28,17 @@ public:
     Object(double mass, Vec3 position, Quat4 rotation, std::unique_ptr<Geometry> geom)
         : mass(mass), position(position), rotation(rotation), geometry(std::move(geom)), velocity(Vec3()) { SetGeometryOwner(); }
 
-    const double &GetMass() const { return mass; }
+    double GetMass() const { return mass; }
     const Vec3 &GetVelocity() const { return velocity; }
     const Vec3 &GetPosition() const { return position; }
     const Quat4 &GetRotation() const { return rotation; }
     const std::vector<Force> &GetForces() const { return forces; }
 
-    void SetMass(const double &m)
+    void SetMass(double m)
     {
         this->mass = m > 0 ? m : this->mass;
     }
-    void SetVelocity(const double &_x, const double &_y, const double &_z)
+    void SetVelocity(double _x, double _y, double _z)
     {
         this->velocity.x = _x;
         this->velocity.y = _y;
@@ -48,7 +48,7 @@ public:
     {
         this->velocity = vector;
     }
-    void SetPosition(const double &_x, const double &_y, const double &_z)
+    void SetPosition(double _x, double _y, double _z)
     {
         this->position.x = _x;
         this->position.y = _y;
@@ -58,7 +58,7 @@ public:
     {
         this->position = vector;
     }
-    void SetRotation(const double &_w, const double &_x, const double &_y, const double &_z)
+    void SetRotation(double _w, double _x, double _y, double _z)
     {
         this->rotation.w = _w;
         this->rotation.x = _x;
@@ -66,7 +66,7 @@ public:
         this->rotation.z = _z;
         this->rotation.Normalize();
     }
-    void SetRotation(const double &w, const Vec3 &axis)
+    void SetRotation(double w, const Vec3 &axis)
     {
         this->rotation.w = w;
         this->rotation.x = axis.x;

@@ -14,7 +14,7 @@ void ProjectBox(const Vec3 &center, const std::vector<Vec3> &axis,
     maxProj = s + r;
 }
 
-bool Overlap(double min1, const double &max1, double min2, const double &max2)
+bool Overlap(double min1, double max1, double min2, double max2)
 {
     return (max1 >= min2 - EPSILON && max2 >= min1 - EPSILON);
 }
