@@ -52,6 +52,10 @@ struct Vec3
     }
     constexpr Vec3 &Normalize()
     {
+        if (this->IsZero())
+        {
+            return *this;
+        }
         double length = sqrt(this->LengthSquared());
         x /= length;
         y /= length;
@@ -149,12 +153,26 @@ struct Vec4
     }
     constexpr Vec4 &Normalize()
     {
+        if (this->IsZero())
+            return *this;
         double length = sqrt(this->LengthSquared());
         x /= length;
         y /= length;
         z /= length;
         w /= length;
         return *this;
+    }
+    bool IsZero() const
+    {
+        if (!(-EPSILON <= w && w <= EPSILON))
+            return false;
+        if (!(-EPSILON <= x && x <= EPSILON))
+            return false;
+        if (!(-EPSILON <= y && y <= EPSILON))
+            return false;
+        if (!(-EPSILON <= z && z <= EPSILON))
+            return false;
+        return true;
     }
 };
 

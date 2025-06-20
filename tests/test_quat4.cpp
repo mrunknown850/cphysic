@@ -4,7 +4,7 @@
 TEST(Quat4Test, DefaultConstructor)
 {
     Quat4 a;
-    EXPECT_DOUBLE_EQ(a.w, 0);
+    EXPECT_DOUBLE_EQ(a.w, 1);
     EXPECT_DOUBLE_EQ(a.x, 0);
     EXPECT_DOUBLE_EQ(a.y, 0);
     EXPECT_DOUBLE_EQ(a.z, 0);
