@@ -7,10 +7,14 @@ struct Quat4
 {
     double w, x, y, z;
 
-    Quat4() : w(0), x(0), y(0), z(0) {}
+    Quat4() : w(1), x(0), y(0), z(0) {}
     Quat4(double _w, Vec3 axis) : w(_w)
     {
-        Vec4 temp = Vec4(_w, axis.x, axis.y, axis.z).Normalize();
+        Vec4 temp = Vec4(_w, axis.x, axis.y, axis.z);
+        if (temp.IsZero())
+            temp.w = 1;
+        else
+            temp.Normalize();
         w = temp.w;
         x = temp.x;
         y = temp.y;
@@ -18,7 +22,11 @@ struct Quat4
     }
     Quat4(double _w, double _x, double _y, double _z)
     {
-        Vec4 temp = Vec4(_w, _x, _y, _z).Normalize();
+        Vec4 temp = Vec4(_w, _x, _y, _z);
+        if (temp.IsZero())
+            temp.w = 1;
+        else
+            temp.Normalize();
         w = temp.w;
         x = temp.x;
         y = temp.y;
@@ -57,7 +65,7 @@ struct Quat4
 
 inline Quat4 operator+(Quat4 l, const Quat4 &r) { return l += r; }
 inline Quat4 operator*(Quat4 l, const Quat4 &r) { return l *= r; }
-inline Vec3 operator*(const Vec3& l, const Quat4 &Q)
+inline Vec3 operator*(const Vec3 &l, const Quat4 &Q)
 {
     Quat4 P = Quat4(0, l);
     Quat4 R = Q * P * -Q;
