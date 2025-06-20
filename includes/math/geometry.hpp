@@ -14,6 +14,7 @@ enum class GeometryType
 
 class Geometry
 {
+    friend class Object;
 protected:
     Vec3 offset;
     Quat4 rotation;
@@ -30,6 +31,8 @@ public:
     const Quat4 &GetLocalRotation() const { return rotation; }
     Vec3 GetWorldCenter() const;
     Quat4 GetWorldRotation() const;
+
+    void SetOwner(Object *obj) { object = obj; }
 
     void SetLocalOffset(double _x, double _y, double _z)
     {
