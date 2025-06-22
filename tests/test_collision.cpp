@@ -3,8 +3,8 @@
 #include "object.hpp"
 
 
-Object obj1(1, Vec3(), Quat4(), nullptr);
-Object obj2(1, Vec3(), Quat4(), nullptr);
+Object obj1(1, nullptr);
+Object obj2(1, nullptr);
 
 TEST(BoxBoxCollision, OverlappingBoxes) {
     Box b1(Vec3(1, 1, 1), &obj1);
