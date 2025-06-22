@@ -4,6 +4,7 @@
 #include <vector>
 #include "vectors.hpp"
 #include "quaternions.hpp"
+#include "matrices.hpp"
 
 class Object;
 
@@ -27,10 +28,12 @@ public:
     virtual GeometryType GetType() const = 0;
     virtual bool CollidesWith(const Geometry &other) const = 0;
 
+    virtual Matrix3x3 GetLocalInertiaMatrix() const = 0;
     const Vec3 &GetLocalOffset() const { return offset; }
     const Quat4 &GetLocalRotation() const { return rotation; }
     Vec3 GetWorldCenter() const;
     Quat4 GetWorldRotation() const;
+    
 
     void SetOwner(Object *obj) { object = obj; }
 
@@ -82,6 +85,8 @@ public:
 
     std::vector<Vec3> GetNormalAxis() const;
 
+    Matrix3x3 GetLocalInertiaMatrix() const override;
+
     const Vec3 &GetHalfExtends() const { return halfExtends; }
     void SetHalfExtends(double _x, double _y, double _z)
     {
@@ -103,6 +108,7 @@ public:
 
     GeometryType GetType() const override { return GeometryType::SPHERE; }
     bool CollidesWith(const Geometry &other) const override;
+    Matrix3x3 GetLocalInertiaMatrix() const override;
 
     double GetRadius() const { return radius; }
     void SetRadius(double _r) { this->radius = _r; }

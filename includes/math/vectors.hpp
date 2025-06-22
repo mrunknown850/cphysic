@@ -4,6 +4,12 @@
 #include <cmath>
 #include "config.hpp"
 
+// Forward declaraction
+struct Matrix3x3;
+
+// Forward declaraction
+struct Matrix3x3;
+
 // Vectors
 struct Vec3
 {
@@ -42,6 +48,8 @@ struct Vec3
         z /= scalar;
         return *this;
     }
+
+    Matrix3x3 SelfInverseOuter() const;
 
     constexpr double Dot(const Vec3 &other) const
     {

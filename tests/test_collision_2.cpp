@@ -3,7 +3,7 @@
 #include "math/geometry.hpp"
 #include "physic/object.hpp"
 
-Object obj(1, Vec3(), Quat4(), nullptr);
+Object obj(1, nullptr);
 
 TEST(SphereCollisionTest, OverlappingSpheresCollide) {
     Sphere s1(2.0, &obj);

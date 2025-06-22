@@ -3,6 +3,8 @@
 
 #include "vectors.hpp"
 
+struct Matrix3x3;
+
 struct Quat4
 {
     double w, x, y, z;
@@ -61,6 +63,8 @@ struct Quat4
         z = w1 * z2 + w2 * z1 + x1 * y2 - y1 * x2;
         return *this;
     }
+
+    Matrix3x3 ToMatrix() const;
 };
 
 inline Quat4 operator+(Quat4 l, const Quat4 &r) { return l += r; }
