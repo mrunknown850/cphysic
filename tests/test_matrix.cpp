@@ -74,3 +74,20 @@ TEST(Matrix3x3Test, MatrixSelfMultiplication) {
     EXPECT_DOUBLE_EQ(R(2,0), 0);
     EXPECT_DOUBLE_EQ(R(2,1), 0);
 }
+
+TEST(Matrix3x3Test, TransposeMatrix) {
+    Matrix3x3 M;
+    M(0,0) = 1; M(0,1) = 2; M(0,2) = 3;
+    M(1,0) = 4; M(1,1) = 5; M(1,2) = 6;
+    M(2,0) = 7; M(2,1) = 8; M(2,2) = 9;
+    Matrix3x3 MT = M.Transpose();
+    EXPECT_DOUBLE_EQ(MT(0, 0), 1);
+    EXPECT_DOUBLE_EQ(MT(0, 1), 4);
+    EXPECT_DOUBLE_EQ(MT(0, 2), 7);
+    EXPECT_DOUBLE_EQ(MT(1, 0), 2);
+    EXPECT_DOUBLE_EQ(MT(1, 1), 5);
+    EXPECT_DOUBLE_EQ(MT(1, 2), 8);
+    EXPECT_DOUBLE_EQ(MT(2, 0), 3);   
+    EXPECT_DOUBLE_EQ(MT(2, 1), 6);   
+    EXPECT_DOUBLE_EQ(MT(2, 2), 9);   
+}

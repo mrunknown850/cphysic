@@ -20,6 +20,21 @@ struct Matrix3x3
         data[7] = 0.0;
         data[8] = 0.0;
     };
+
+    Matrix3x3(double d0, double d1, double d2,
+              double d3, double d4, double d5,
+              double d6, double d7, double d8)
+    {
+        data[0] = d0;
+        data[1] = d1;
+        data[2] = d2;
+        data[3] = d3;
+        data[4] = d4;
+        data[5] = d5;
+        data[6] = d6;
+        data[7] = d7;
+        data[8] = d8;
+    }
     double &operator()(int row, int col)
     {
         return data[row * 3 + col];
@@ -91,7 +106,14 @@ struct Matrix3x3
         }
         return Quat4(w, x, y, z);
     }
-    
+    Matrix3x3 Transpose() const {
+        return Matrix3x3(
+            data[0], data[3], data[6],
+            data[1], data[4], data[7],
+            data[2], data[5], data[8]
+        );
+    }
+
     static Matrix3x3 Identity()
     {
         Matrix3x3 identity;
