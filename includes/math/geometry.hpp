@@ -84,7 +84,6 @@ public:
     bool CollidesWith(const Geometry &other) const override;
 
     std::vector<Vec3> GetNormalAxis() const;
-
     Matrix3x3 GetLocalInertiaMatrix() const override;
 
     const Vec3 &GetHalfExtends() const { return halfExtends; }
