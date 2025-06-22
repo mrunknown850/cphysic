@@ -43,35 +43,16 @@ struct Matrix3x3
     {
         return data[row * 3 + col];
     }
-    
-    Matrix3x3 &operator*=(double scalar) {
-        for (int i = 0; i < 3; i++) 
-            for (int j = 0; j < 3; j++)
-                (*this)(i, j) *= scalar;
-        return *this;
-    }
-    Matrix3x3 &operator*=(const Matrix3x3 &other);
-    
-    Matrix3x3 &operator*=(double scalar) {
-        for (int i = 0; i < 3; i++) 
-            for (int j = 0; j < 3; j++)
-                (*this)(i, j) *= scalar;
-        return *this;
-    }
-    Matrix3x3 &operator*=(const Matrix3x3 &other);
-    Vec3 operator*(const Vec3 &vec) const
-    {
-        return Vec3(
-            data[0] * vec.x + data[1] * vec.y + data[2] * vec.z,
-            data[3] * vec.x + data[4] * vec.y + data[5] * vec.z,
-            data[6] * vec.x + data[7] * vec.y + data[8] * vec.z);
-    }
-    
-    Quat4 ToQuaternion() const;
 
-    Matrix3x3 Transpose() const
+    Matrix3x3 &operator*=(double scalar)
     {
-    
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
+                (*this)(i, j) *= scalar;
+        return *this;
+    }
+    Matrix3x3 &operator*=(const Matrix3x3 &other);
+
     Quat4 ToQuaternion() const;
 
     Matrix3x3 Transpose() const
@@ -79,7 +60,6 @@ struct Matrix3x3
         return Matrix3x3(
             data[0], data[3], data[6],
             data[1], data[4], data[7],
-            data[2], data[5], data[8]);
             data[2], data[5], data[8]);
     }
     static Matrix3x3 Identity()
@@ -94,5 +74,13 @@ struct Matrix3x3
 
 inline Matrix3x3 operator*(Matrix3x3 &l, const Matrix3x3 &r) { return l *= r; }
 inline Matrix3x3 operator*(Matrix3x3 &l, double scalar) { return l *= scalar; }
+inline Vec3 operator*(const Vec3 &vec, const Matrix3x3 &matrix)
+{
+    return Vec3(
+        matrix(0, 0) * vec.x + matrix(0, 1) * vec.y + matrix(0, 2) * vec.z,
+        matrix(1, 0) * vec.x + matrix(1, 1) * vec.y + matrix(1, 2) * vec.z,
+        matrix(2, 0) * vec.x + matrix(2, 1) * vec.y + matrix(2 ,2) * vec.z);
+}
+inline Vec3 operator*(const Matrix3x3 &m, const Vec3 &vec) { return vec*m; }
 
 #endif
