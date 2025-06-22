@@ -52,6 +52,18 @@ struct Matrix3x3
         return *this;
     }
     Matrix3x3 &operator*=(const Matrix3x3 &other);
+    Matrix3x3 &operator+=(const Matrix3x3 &other)
+    {
+        for (int i = 0; i < 9; i++)
+            data[i] += other.data[i];
+        return *this;
+    }
+    Matrix3x3 &operator-=(const Matrix3x3 &other)
+    {
+        for (int i = 0; i < 9; i++)
+            data[i] -= other.data[i];
+        return *this;
+    }
 
     Quat4 ToQuaternion() const;
 
@@ -79,8 +91,10 @@ inline Vec3 operator*(const Vec3 &vec, const Matrix3x3 &matrix)
     return Vec3(
         matrix(0, 0) * vec.x + matrix(0, 1) * vec.y + matrix(0, 2) * vec.z,
         matrix(1, 0) * vec.x + matrix(1, 1) * vec.y + matrix(1, 2) * vec.z,
-        matrix(2, 0) * vec.x + matrix(2, 1) * vec.y + matrix(2 ,2) * vec.z);
+        matrix(2, 0) * vec.x + matrix(2, 1) * vec.y + matrix(2, 2) * vec.z);
 }
-inline Vec3 operator*(const Matrix3x3 &m, const Vec3 &vec) { return vec*m; }
+inline Vec3 operator*(const Matrix3x3 &m, const Vec3 &vec) { return vec * m; }
+inline Matrix3x3 operator+(Matrix3x3 &l, const Matrix3x3 &r) { return l += r; }
+inline Matrix3x3 operator-(Matrix3x3 &l, const Matrix3x3 &r) { return l -= r; }
 
 #endif
