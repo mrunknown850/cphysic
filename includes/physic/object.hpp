@@ -6,6 +6,7 @@
 #include "force.hpp"
 #include "vectors.hpp"
 #include "quaternions.hpp"
+#include "matrices.hpp"
 
 class Geometry;
 
@@ -18,7 +19,9 @@ private:
     Vec3 velocity;
 
     // Angular property
+    Matrix3x3 inertia_matrix;
     Quat4 rotation;
+    Quat4 angular_velocity;
 
     // Overal property
     std::vector<Force> forces;
@@ -33,6 +36,7 @@ public:
     double GetMass() const { return mass; }
     const Vec3 &GetVelocity() const { return velocity; }
     const Vec3 &GetPosition() const { return position; }
+    const Matrix3x3 &GetInertiaMatrix() const { return inertia_matrix; }
     const Quat4 &GetRotation() const { return rotation; }
     const Quat4 &GetAngularVelocity() const { return angular_velocity; }
     const std::vector<Force> &GetForces() const { return forces; }
