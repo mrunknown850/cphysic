@@ -51,6 +51,14 @@ struct Matrix3x3
         return *this;
     }
     Matrix3x3 &operator*=(const Matrix3x3 &other);
+    
+    Matrix3x3 &operator*=(double scalar) {
+        for (int i = 0; i < 3; i++) 
+            for (int j = 0; j < 3; j++)
+                (*this)(i, j) *= scalar;
+        return *this;
+    }
+    Matrix3x3 &operator*=(const Matrix3x3 &other);
     Vec3 operator*(const Vec3 &vec) const
     {
         return Vec3(
@@ -63,9 +71,15 @@ struct Matrix3x3
 
     Matrix3x3 Transpose() const
     {
+    
+    Quat4 ToQuaternion() const;
+
+    Matrix3x3 Transpose() const
+    {
         return Matrix3x3(
             data[0], data[3], data[6],
             data[1], data[4], data[7],
+            data[2], data[5], data[8]);
             data[2], data[5], data[8]);
     }
     static Matrix3x3 Identity()

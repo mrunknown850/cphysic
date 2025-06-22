@@ -7,6 +7,9 @@
 // Forward declaraction
 struct Matrix3x3;
 
+// Forward declaraction
+struct Matrix3x3;
+
 // Vectors
 struct Vec3
 {
