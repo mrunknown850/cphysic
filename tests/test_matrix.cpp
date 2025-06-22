@@ -51,6 +51,20 @@ TEST(Matrix3x3Test, MatrixMatrixMultiplication) {
     EXPECT_DOUBLE_EQ(C(2,2), 7*7 + 8*4 + 9*1);
 }
 
+TEST(Matrix3x3Test, MatrixScalarMultiplication) {
+    Matrix3x3 A(1, 2, 3, 4, 5, 6, 7, 8, 9);
+    A *= 2;
+    EXPECT_DOUBLE_EQ(A(0, 0), 2);
+    EXPECT_DOUBLE_EQ(A(0, 1), 4);
+    EXPECT_DOUBLE_EQ(A(0, 2), 6);
+    EXPECT_DOUBLE_EQ(A(1, 0), 8);
+    EXPECT_DOUBLE_EQ(A(1, 1), 10);
+    EXPECT_DOUBLE_EQ(A(1, 2), 12);
+    EXPECT_DOUBLE_EQ(A(2, 0), 14);
+    EXPECT_DOUBLE_EQ(A(2, 1), 16);
+    EXPECT_DOUBLE_EQ(A(2, 2), 18);
+}
+
 TEST(Matrix3x3Test, ZeroMatrix) {
     Matrix3x3 Z;
     for(int i=0;i<3;++i)

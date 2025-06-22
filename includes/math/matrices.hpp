@@ -43,22 +43,14 @@ struct Matrix3x3
     {
         return data[row * 3 + col];
     }
-    Matrix3x3 operator*(const Matrix3x3 &other) const
-    {
-        Matrix3x3 result;
-        for (int row = 0; row < 3; ++row)
-        {
-            for (int col = 0; col < 3; ++col)
-            {
-                result(row, col) = 0.0;
-                for (int k = 0; k < 3; ++k)
-                {
-                    result(row, col) += (*this)(row, k) * other(k, col);
-                }
-            }
-        }
-        return result;
+    
+    Matrix3x3 &operator*=(double scalar) {
+        for (int i = 0; i < 3; i++) 
+            for (int j = 0; j < 3; j++)
+                (*this)(i, j) *= scalar;
+        return *this;
     }
+    Matrix3x3 &operator*=(const Matrix3x3 &other);
     Vec3 operator*(const Vec3 &vec) const
     {
         return Vec3(
@@ -66,54 +58,16 @@ struct Matrix3x3
             data[3] * vec.x + data[4] * vec.y + data[5] * vec.z,
             data[6] * vec.x + data[7] * vec.y + data[8] * vec.z);
     }
+    
+    Quat4 ToQuaternion() const;
 
-    Quat4 ToQuaternion() const
+    Matrix3x3 Transpose() const
     {
-        // Convert the 3x3 matrix to a quaternion
-        double trace = data[0] + data[4] + data[8];
-        double w, x, y, z;
-        if (trace > 0)
-        {
-            double s = sqrt(trace + 1.0) * 2; // S= 4 * w
-            w = 0.25 * s;
-            x = (data[7] - data[5]) / s;
-            y = (data[2] - data[6]) / s;
-            z = (data[3] - data[1]) / s;
-        }
-        else if ((data[0] > data[4]) && (data[0] > data[8]))
-        {
-            double s = sqrt(1.0 + data[0] - data[4] - data[8]) * 2; // S= 4 * x
-            w = (data[7] - data[5]) / s;
-            x = 0.25 * s;
-            y = (data[1] + data[3]) / s;
-            z = (data[2] + data[6]) / s;
-        }
-        else if (data[4] > data[8])
-        {
-            double s = sqrt(1.0 + data[4] - data[0] - data[8]) * 2; // S= 4 * y
-            w = (data[2] - data[6]) / s;
-            x = (data[1] + data[3]) / s;
-            y = 0.25 * s;
-            z = (data[5] + data[7]) / s;
-        }
-        else
-        {
-            double s = sqrt(1.0 + data[8] - data[0] - data[4]) * 2; // S= 4 * z
-            w = (data[3] - data[1]) / s;
-            x = (data[2] + data[6]) / s;
-            y = (data[5] + data[7]) / s;
-            z = 0.25 * s;
-        }
-        return Quat4(w, x, y, z);
-    }
-    Matrix3x3 Transpose() const {
         return Matrix3x3(
             data[0], data[3], data[6],
             data[1], data[4], data[7],
-            data[2], data[5], data[8]
-        );
+            data[2], data[5], data[8]);
     }
-
     static Matrix3x3 Identity()
     {
         Matrix3x3 identity;
@@ -123,5 +77,8 @@ struct Matrix3x3
         return identity;
     }
 };
+
+inline Matrix3x3 operator*(Matrix3x3 &l, const Matrix3x3 &r) { return l *= r; }
+inline Matrix3x3 operator*(Matrix3x3 &l, double scalar) { return l *= scalar; }
 
 #endif
