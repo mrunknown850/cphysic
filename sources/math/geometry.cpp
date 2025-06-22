@@ -148,6 +148,39 @@ bool Sphere::CollidesWith(const Geometry &other) const
     return false;
 }
 
+// Box specifics
+Matrix3x3 Box::GetLocalInertiaMatrix() const
+{
+    double mass = this->object->GetMass();
+    Matrix3x3 inertiaMatrix;
+    const Vec3 fullExtends = this->GetHalfExtends() * 2.0;
+    const Vec3 offset = this->GetLocalOffset();
+
+    inertiaMatrix(0, 0) = 1.0 / 12.0 * mass * (fullExtends.y * fullExtends.y + fullExtends.z * fullExtends.z);
+    inertiaMatrix(1, 1) = 1.0 / 12.0 * mass * (fullExtends.x * fullExtends.x + fullExtends.z * fullExtends.z);
+    inertiaMatrix(2, 2) = 1.0 / 12.0 * mass * (fullExtends.y * fullExtends.y + fullExtends.x * fullExtends.x);
+
+    Matrix3x3 rotationMatrix = this->GetWorldRotation().ToMatrix();
+    Matrix3x3 rotatedMatrix = (rotationMatrix * inertiaMatrix) * rotationMatrix.Transpose();
+    Matrix3x3 res = rotatedMatrix + (Matrix3x3::Identity() * offset.LengthSquared() - offset.SelfInverseOuter()) * mass;
+
+    return res;
+}
+
+Matrix3x3 Sphere::GetLocalInertiaMatrix() const
+{
+    double mass = this->object->GetMass();
+    double radius = this->GetRadius();
+    const Vec3 offset = this->GetLocalOffset();
+
+    double sphere_angular_inertia = 2.0 / 5.0 * mass * radius * radius;
+    Matrix3x3 inertiaLocal = Matrix3x3::Identity() * sphere_angular_inertia;
+    Matrix3x3 offsetOuter = offset.SelfInverseOuter();
+    Matrix3x3 paralelAxis = (Matrix3x3::Identity() * offset.LengthSquared() - offsetOuter) * mass;
+    Matrix3x3 res = inertiaLocal + paralelAxis;
+    return res;
+}
+
 // General functions
 Vec3 Geometry::GetWorldCenter() const { return offset + object->GetPosition(); }
 Quat4 Geometry::GetWorldRotation() const
