@@ -37,7 +37,7 @@ jobs:
     - name: Run Tests
       shell: bash
       working-directory: ${{github.workspace}}/build
-      run: ./run_test
+      run: ./tests/run_test
 
   # release:
   #   needs: build-and-test

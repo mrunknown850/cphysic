@@ -6,17 +6,24 @@
 #include "force.hpp"
 #include "vectors.hpp"
 #include "quaternions.hpp"
+#include "matrices.hpp"
 
 class Geometry;
 
 class Object
 {
 private:
+    // Linear property
     double mass;
-    Quat4 rotation;
     Vec3 position;
     Vec3 velocity;
 
+    // Angular property
+    Matrix3x3 inertia_matrix;
+    Quat4 rotation;
+    Quat4 angular_velocity;
+
+    // Overal property
     std::vector<Force> forces;
     std::unique_ptr<Geometry> geometry;
 
@@ -25,13 +32,13 @@ private:
 public:
     Object(double mass, std::unique_ptr<Geometry> geom)
         : mass(mass), position(Vec3()), rotation(Quat4()), velocity(Vec3()), geometry(std::move(geom)) { SetGeometryOwner(); }
-    Object(double mass, Vec3 position, Quat4 rotation, std::unique_ptr<Geometry> geom)
-        : mass(mass), position(position), rotation(rotation), geometry(std::move(geom)), velocity(Vec3()) { SetGeometryOwner(); }
 
     double GetMass() const { return mass; }
     const Vec3 &GetVelocity() const { return velocity; }
     const Vec3 &GetPosition() const { return position; }
+    const Matrix3x3 &GetInertiaMatrix() const { return inertia_matrix; }
     const Quat4 &GetRotation() const { return rotation; }
+    const Quat4 &GetAngularVelocity() const { return angular_velocity; }
     const std::vector<Force> &GetForces() const { return forces; }
 
     void SetMass(double m)
